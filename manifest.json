@@ -1,0 +1,13 @@
+{
+  "name": "Copy Jira Ticket ID",
+  "version": "1.0",
+  "manifest_version": 3,
+  "content_scripts": [
+    {
+      "matches": ["*://*.atlassian.net/jira/*"],
+      "js": ["script.js"],
+      "css": ["style.css"]
+    }
+  ],
+  "permissions": ["clipboardWrite"]
+}
