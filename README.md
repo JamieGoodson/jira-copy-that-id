@@ -4,4 +4,4 @@
 
 A chrome extension that adds a button next to Jira tickets to copy their ticket id.
 
-Only works for the active sprint currently (may update in the future).
+Only adds the button for the active sprint currently (may update in the future).
