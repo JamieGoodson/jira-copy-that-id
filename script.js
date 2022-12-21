@@ -33,6 +33,8 @@ function createCopyBtn(ticketId) {
   return copyBtn;
 }
 
+// Jira regularly re-renders as live updates come in (eg if someone moves a ticket)
+// which removes our copy button, so we regularly re-inject.
 setInterval(() => {
   injectCopyBtns();
 }, 1000);
