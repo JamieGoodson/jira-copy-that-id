@@ -9,5 +9,8 @@
       "css": ["style.css"]
     }
   ],
+  "web_accessible_resources": [
+    { "resources": ["images/*.svg"], "matches": ["<all_urls>"] }
+  ],
   "permissions": ["clipboardWrite"]
 }

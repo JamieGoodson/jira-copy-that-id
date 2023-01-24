@@ -1,3 +1,6 @@
+const contentCopyImgUrl = chrome.runtime.getURL("images/content_copy.svg");
+const doneImgUrl = chrome.runtime.getURL("images/done.svg");
+
 function injectCopyBtns() {
   const ticketIdContainerEls = document.getElementsByClassName("ghx-stat-2");
 
@@ -14,19 +17,19 @@ function injectCopyBtns() {
 }
 
 function createCopyBtn(ticketId) {
-  const copyBtn = document.createElement("span");
+  const copyBtn = document.createElement("img");
   copyBtn.ariaLabel = "copy-btn";
-  copyBtn.className = "copy-btn material-symbols-outlined";
-  copyBtn.textContent = "content_copy";
+  copyBtn.className = "copy-btn";
+  copyBtn.src = contentCopyImgUrl;
 
   copyBtn.onclick = (e) => {
     e.stopPropagation();
     navigator.clipboard.writeText(ticketId);
-    copyBtn.textContent = "done"; // Change to done icon
+    copyBtn.src = doneImgUrl;
 
     // Reset icon
     setTimeout(() => {
-      copyBtn.textContent = "content_copy";
+      copyBtn.src = contentCopyImgUrl;
     }, 1000);
   };
 
