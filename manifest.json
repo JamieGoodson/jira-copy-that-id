@@ -1,6 +1,7 @@
 {
   "name": "Copy Jira Ticket ID",
-  "version": "1.0",
+  "description": "Adds a handy button to copy Jira ticket IDs to your clipboard!",
+  "version": "0.1",
   "manifest_version": 3,
   "content_scripts": [
     {
