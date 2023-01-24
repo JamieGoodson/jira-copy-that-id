@@ -1,6 +1,6 @@
 # Copy Jira Ticket ID
 
-![image](https://user-images.githubusercontent.com/4729966/208930320-84365c98-6502-40ff-893d-d51436a68485.png)
+![copy-jira-ticket-id](https://user-images.githubusercontent.com/4729966/214346197-d0cba3f6-39a0-40b6-bc2d-16de2035a3fd.gif)
 
 A chrome extension that adds a handy button to copy Jira ticket IDs to your clipboard!
 
