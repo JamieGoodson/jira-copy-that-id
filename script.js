@@ -1,16 +1,20 @@
-const contentCopyImgUrl = chrome.runtime.getURL("images/content_copy.svg");
-const doneImgUrl = chrome.runtime.getURL("images/done.svg");
+const STATIC_CONTENT = {
+  CONTENT_COPY_IMG: chrome.runtime.getURL("images/content_copy.svg"),
+  DONE_IMG: chrome.runtime.getURL("images/done.svg"),
+}
 
 function injectCopyBtns() {
-  const ticketIdContainerEls = document.getElementsByClassName("ghx-stat-2");
+  const ticketIdContainerEls = document.querySelectorAll("div[class*='_footerChildSection']");
 
   for (const ticketIdContainerEl of ticketIdContainerEls) {
     const hasCopyBtn =
-      ticketIdContainerEl.querySelector('[aria-label="copy-btn"]') != null;
+      ticketIdContainerEl.getElementsByClassName('copy-btn').length > 0;
     if (hasCopyBtn) continue;
 
-    const ticketIdEl = ticketIdContainerEl.getElementsByClassName("ghx-key")[0];
-    const ticketId = ticketIdEl.ariaLabel;
+    const links = ticketIdContainerEl.getElementsByTagName('a');
+    if (!links.length) continue;
+
+    const ticketId = links[0].children[0].textContent;
     const copyBtn = createCopyBtn(ticketId);
     ticketIdContainerEl.appendChild(copyBtn);
   }
@@ -18,18 +22,17 @@ function injectCopyBtns() {
 
 function createCopyBtn(ticketId) {
   const copyBtn = document.createElement("img");
-  copyBtn.ariaLabel = "copy-btn";
   copyBtn.className = "copy-btn";
-  copyBtn.src = contentCopyImgUrl;
+  copyBtn.src = STATIC_CONTENT.CONTENT_COPY_IMG;
 
   copyBtn.onclick = (e) => {
     e.stopPropagation();
     navigator.clipboard.writeText(ticketId);
-    copyBtn.src = doneImgUrl;
+    copyBtn.src = STATIC_CONTENT.DONE_IMG;
 
     // Reset icon
     setTimeout(() => {
-      copyBtn.src = contentCopyImgUrl;
+      copyBtn.src = STATIC_CONTENT.CONTENT_COPY_IMG;
     }, 1000);
   };
 
@@ -40,4 +43,4 @@ function createCopyBtn(ticketId) {
 // which removes our copy button, so we regularly re-inject.
 setInterval(() => {
   injectCopyBtns();
-}, 1000);
+}, 200);
