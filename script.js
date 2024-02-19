@@ -1,22 +1,23 @@
 const STATIC_CONTENT = {
   CONTENT_COPY_IMG: chrome.runtime.getURL("images/content_copy.svg"),
   DONE_IMG: chrome.runtime.getURL("images/done.svg"),
-}
+};
 
-function injectCopyBtns() {
-  const ticketIdContainerEls = document.querySelectorAll("div[class*='_footerChildSection']");
+function addCopyBtnsToChildren(node) {
+  const ticketIdContainers = node.querySelectorAll(
+    "div[class*='_footerChildSection']"
+  );
 
-  for (const ticketIdContainerEl of ticketIdContainerEls) {
-    const hasCopyBtn =
-      ticketIdContainerEl.getElementsByClassName('copy-btn').length > 0;
-    if (hasCopyBtn) continue;
+  for (const ticketIdContainer of ticketIdContainers) {
+    if (ticketIdContainer.getAttribute("data-copybtn")) continue;
+    ticketIdContainer.setAttribute("data-copybtn", true);
 
-    const links = ticketIdContainerEl.getElementsByTagName('a');
+    const links = ticketIdContainer.getElementsByTagName("a");
     if (!links.length) continue;
 
     const ticketId = links[0].children[0].textContent;
     const copyBtn = createCopyBtn(ticketId);
-    ticketIdContainerEl.appendChild(copyBtn);
+    ticketIdContainer.appendChild(copyBtn);
   }
 }
 
@@ -39,8 +40,18 @@ function createCopyBtn(ticketId) {
   return copyBtn;
 }
 
-// Jira regularly re-renders as live updates come in (eg if someone moves a ticket)
-// which removes our copy button, so we regularly re-inject.
-setInterval(() => {
-  injectCopyBtns();
-}, 200);
+const observer = new MutationObserver(function (mutations) {
+  for (const mutation of mutations) {
+    if (!mutation.addedNodes.length) continue;
+
+    for (const node of mutation.addedNodes) {
+      if (node.nodeType !== Node.ELEMENT_NODE) continue;
+      addCopyBtnsToChildren(node);
+    }
+  }
+});
+
+observer.observe(document.body, {
+  childList: true,
+  subtree: true,
+});
