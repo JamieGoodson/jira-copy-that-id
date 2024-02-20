@@ -23,7 +23,7 @@ function addCopyBtnsToChildren(node) {
 
 function createCopyBtn(ticketId) {
   const copyBtn = document.createElement("img");
-  copyBtn.className = "copy-btn";
+  copyBtn.className = "copy-btn"
   copyBtn.src = STATIC_CONTENT.CONTENT_COPY_IMG;
 
   copyBtn.onclick = (e) => {
